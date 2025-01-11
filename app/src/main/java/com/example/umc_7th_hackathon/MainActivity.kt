@@ -3,12 +3,15 @@ package com.example.umc_7th_hackathon
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.umc_7th_hackathon.databinding.ActivityMainBinding
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.naver.maps.map.MapView
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.LocationTrackingMode
@@ -26,6 +29,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var naverMap: NaverMap
     private lateinit var locationSource: FusedLocationSource
     private lateinit var mapView: MapView
+    private lateinit var bottomSheetDialog: BottomSheetDialog
+    private lateinit var imgIv: ImageView // BottomSheetDialog 내부의 ImageView
+
 
     // 위치 권한 요청
     private val locationPermissionRequest = registerForActivityResult(
@@ -66,7 +72,32 @@ class MainActivity : AppCompatActivity() {
         binding.cameraBt.setOnClickListener {
             val intent = Intent(this, CameraActivity::class.java)
             startActivity(intent)
+
+
         }
+
+        // BottomSheetDialog 초기화
+        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_review, null)
+        bottomSheetDialog = BottomSheetDialog(this)
+        bottomSheetDialog.setContentView(bottomSheetView)
+
+        imgIv = bottomSheetView.findViewById(R.id.img_iv)
+
+        // CameraActivity에서 전달된 사진 URI 확인
+        val photoUri = intent.getStringExtra("photoUri")
+        if (photoUri != null) {
+            val uri = Uri.parse(photoUri)
+            showBottomSheetWithImage(uri)
+        }
+
+    }
+
+    private fun showBottomSheetWithImage(photoUri: Uri) {
+        // BottomSheetDialog의 img_iv에 사진 표시
+        imgIv.setImageURI(photoUri)
+
+        // BottomSheetDialog 표시
+        bottomSheetDialog.show()
     }
 
     // Naver 지도 초기화
@@ -108,4 +139,5 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         mapView.onDestroy()
     }
+
 }
