@@ -23,6 +23,7 @@
         android:theme="@style/Theme.Umc_7th_hackathon"
         tools:targetApi="31">
 
+
         <activity
             android:name=".MapViewActivity"
             android:exported="true">
@@ -38,25 +39,6 @@
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="0mt1gs0ryw" />
-
-        <activity
-            android:name=".MainActivity"
-            android:exported="false">
-        </activity>
-
-        <activity android:name=".login.SignUpActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".login.LoginActivity"
-            android:exported="false">
-        </activity>
 
     </application>
 
