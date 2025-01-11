@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mapView: MapView
     private lateinit var bottomSheetDialog: BottomSheetDialog
     private lateinit var imgIv: ImageView // BottomSheetDialog 내부의 ImageView
+    private lateinit var sunIv: ImageView
 
     private lateinit var sunriseBtn: ImageButton
     private lateinit var sunsetBtn: ImageButton
@@ -113,6 +114,7 @@ class MainActivity : AppCompatActivity() {
         bottomSheetDialog.setContentView(bottomSheetView)
 
         imgIv = bottomSheetView.findViewById(R.id.img_iv)
+        sunIv = bottomSheetView.findViewById(R.id.sun_iv)
 
         // CameraActivity에서 전달된 사진 URI 확인
         val photoUri = intent.getStringExtra("photoUri")
@@ -144,6 +146,19 @@ class MainActivity : AppCompatActivity() {
     private fun showBottomSheetWithImage(photoUri: Uri) {
         // BottomSheetDialog의 img_iv에 사진 표시
         imgIv.setImageURI(photoUri)
+
+        val currentTime = getCurrentTime()
+        val isSunrise = currentTime!! < sunriseTime && currentTime!! > sunsetTime // 일출
+        val isSunset = currentTime!! < sunsetTime && currentTime!! > sunriseTime // 일몰
+
+        when {
+            isSunrise -> {
+                sunIv.setImageResource(R.drawable.ic_sunrise_on)
+            }
+            isSunset -> {
+                sunIv.setImageResource(R.drawable.ic_sunset_on)
+            }
+        }
 
         // BottomSheetDialog 표시
         bottomSheetDialog.show()
@@ -294,7 +309,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun getCurrentTime() : String?{
-        val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
+//        val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val sdf = "15:00"
         return sdf.format(Date())
     }
 }
