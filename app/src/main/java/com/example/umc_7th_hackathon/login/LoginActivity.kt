@@ -9,7 +9,6 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.umc_7th_hackathon.MainActivity
 import com.example.umc_7th_hackathon.databinding.ActivityLoginBinding
 import com.example.umc_7th_hackathon.login.api.clientData.LoginClient
 import com.example.umc_7th_hackathon.login.api.UserRetrofitItf
@@ -139,8 +138,8 @@ class LoginActivity : AppCompatActivity() {
         Log.d("message", loginResponse.message)
 
         // 메인 화면으로 이동
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        Toast.makeText(this, "요리어터에 오신 걸 환영합니다!", Toast.LENGTH_SHORT).show()
+//        val intent = Intent(this, MainActivity::class.java)
+//        startActivity(intent)
+//        Toast.makeText(this, "요리어터에 오신 걸 환영합니다!", Toast.LENGTH_SHORT).show()
     }
 }
