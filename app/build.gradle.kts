@@ -68,6 +68,7 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.0")
     implementation("com.google.code.gson:gson:2.8.8")
+    implementation ("com.google.android.gms:play-services-location:21.0.1")
 
     // json <-> 객체 변환하기 위해 사용
     implementation("com.google.code.gson:gson:2.8.7")
