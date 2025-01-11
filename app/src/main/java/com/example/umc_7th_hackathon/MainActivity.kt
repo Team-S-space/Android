@@ -22,7 +22,6 @@ class MapViewActivity : AppCompatActivity() {
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION
     )
-
     private lateinit var binding: ActivityMainBinding
     private lateinit var naverMap: NaverMap
     private lateinit var locationSource: FusedLocationSource
