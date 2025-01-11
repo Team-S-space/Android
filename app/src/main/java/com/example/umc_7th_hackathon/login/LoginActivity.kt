@@ -1,6 +1,7 @@
 package com.example.umc_7th_hackathon.login
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
@@ -34,6 +35,12 @@ class LoginActivity : AppCompatActivity() {
             password = binding.loginPwEt.text.toString()
 
             CheckLogin()
+        }
+
+        // 회원가입 버튼
+        binding.signupBtnTv.setOnClickListener {
+            val intent = Intent(this, SignUpActivity::class.java)
+            startActivity(intent)
         }
 
         // 아이디 입력 칸 클릭 시 오류 메시지 없애기

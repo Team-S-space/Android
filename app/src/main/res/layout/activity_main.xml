@@ -7,17 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/menu_rv"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_cl"
-        android:visibility="gone"/>
-
     <com.naver.maps.map.MapView
         android:id="@+id/map_view"
         android:layout_width="0dp"
