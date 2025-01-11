@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.umc_7th_hackathon.R
+import java.text.SimpleDateFormat
 import java.util.*
 
 class ReviewWriteActivity : AppCompatActivity() {
@@ -27,36 +28,37 @@ class ReviewWriteActivity : AppCompatActivity() {
 
     // 현재 시간을 "HH:mm" 형식으로 반환
     fun getCurrentTime(): String {
-        //val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
-        val sdf = "14:00"
+//        val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val sdf = "16:00"
         return sdf.format(Date()) // 현재 시간을 "HH:mm" 형식으로 반환
     }
 
     private fun updateImageBasedOnClosestSunTime() {
         val currentTime = getCurrentTime()
-        val isSunrise = currentTime!! < sunriseTime && currentTime!! > sunsetTime // 일출
-        val isSunset = currentTime!! < sunsetTime && currentTime!! > sunriseTime // 일몰
 
         // 일출과 일몰 상태에 따라 이미지 변경
         when {
-            isSunrise -> {
-                setSunImg(sunriseActive = true, sunsetActive = false)
+            currentTime < sunriseTime -> {
+                setSunImg(isSunrise = true) // 일출 전
             }
-            isSunset -> {
-                setSunImg(sunriseActive = false, sunsetActive = true)
+            currentTime > sunsetTime -> {
+                setSunImg(isSunset = true) // 일몰 후
+            }
+            else -> {
+                setSunImg(isSunrise = false, isSunset = false) // 일출과 일몰 사이
             }
         }
     }
 
-    fun setSunImg(sunriseActive: Boolean, sunsetActive: Boolean) {
-        sun.tag = if (sunriseActive) "active" else "inactive"
-        sun.tag = if (sunsetActive) "active" else "inactive"
-
-        sun.setImageResource(
-            if (sunriseActive) R.drawable.ic_sunrise_on else R.drawable.ic_sunrise_off
-        )
-        sun.setImageResource(
-            if (sunsetActive) R.drawable.ic_sunset_on else R.drawable.ic_sunset_off
-        )
+    fun setSunImg(isSunrise: Boolean = false, isSunset: Boolean = false) {
+        // 일출만 활성화
+        if (isSunrise) {
+            sun.setImageResource(R.drawable.ic_sunrise_on)
+        }
+        // 일몰만 활성화
+        else if (isSunset) {
+            sun.setImageResource(R.drawable.ic_sunset_on)
+        }
+        // 일출과 일몰 사이일 때는 이미지 변경 안 함
     }
 }
