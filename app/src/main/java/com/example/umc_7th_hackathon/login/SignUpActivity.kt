@@ -3,13 +3,17 @@ package com.example.umc_7th_hackathon.login
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.example.umc_7th_hackathon.MainActivity
+import com.example.umc_7th_hackathon.R
 import com.example.umc_7th_hackathon.RetrofitObj
 import com.example.umc_7th_hackathon.databinding.ActivitySignUpBinding
 import com.example.umc_7th_hackathon.login.api.clientData.SignUpClient
@@ -29,39 +33,45 @@ class SignUpActivity : AppCompatActivity() {
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // EditText 입력 감지
+        binding.signupIdEt.addTextChangedListener(inputWatcher)
+        binding.signupPwEt.addTextChangedListener(inputWatcher)
+
         // 가입 버튼 클릭 시
-        binding.signUpBt.setOnClickListener {
-            username = binding.signUpIdEt.text.toString()
-            password = binding.signUpPwEt.text.toString()
+        binding.signupBt.setOnClickListener {
+            username = binding.signupIdEt.text.toString()
+            password = binding.signupPwEt.text.toString()
 
-            // 아이디와 비밀번호 조건 검사
-            if (isInputValid(username, password)){
-                Log.d("회원가입", "회원가입 완료")
-                Toast.makeText(this, "회원가입이 완료되었습니다!", Toast.LENGTH_SHORT).show()
-
-                // 명세서 완성 전 메인으로 넘어가게
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-//                checkSignup()
-
-            } else {
-                // 오류 메시지 표시
-                binding.signUpErTv.visibility = View.VISIBLE
+            when {
+                !isUsernameValid(username) -> {
+                    // 아이디가 유효하지 않을 경우
+                    showErrorMessage("아이디는 5~13자의 길이여야 합니다.")
+                }
+                !isPasswordValid(password) -> {
+                    // 비밀번호가 유효하지 않을 경우
+                    showErrorMessage("비밀번호는 8자 이상이어야 합니다.")
+                }
+                else -> {
+                    // 모든 조건이 만족되었을 경우
+                    Log.d("회원가입", "회원가입 완료")
+                    Toast.makeText(this, "회원가입이 완료되었습니다!", Toast.LENGTH_SHORT).show()
+                    checkSignup()
+                }
             }
 
         }
 
         // 아이디 입력 칸 클릭 시 오류 메시지 없애기
-        binding.signUpIdEt.setOnFocusChangeListener { _, hasFocus ->
+        binding.signupIdEt.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
-                binding.signUpErTv.visibility = View.GONE
+                binding.signupErTv.visibility = View.GONE
             }
         }
 
         // 비밀번호 입력 칸 클릭 시 오류 메시지 없애기
-        binding.signUpPwEt.setOnFocusChangeListener { _, hasFocus ->
+        binding.signupPwEt.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
-                binding.signUpErTv.visibility = View.GONE
+                binding.signupErTv.visibility = View.GONE
             }
         }
 
@@ -78,9 +88,46 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    // 입력된 아이디와 비밀번호의 유효성 검사
-    private fun isInputValid(id: String, password: String): Boolean {
-        return id.length in 5..13 && password.length >=8
+    private val inputWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            // 아이디와 비밀번호 모두 입력되었는지 확인
+            val isUsernameEntered = binding.signupIdEt.text.toString().isNotEmpty()
+            val isPasswordEntered = binding.signupPwEt.text.toString().isNotEmpty()
+
+            // 로그인 버튼 상태 업데이트
+            if (isUsernameEntered && isPasswordEntered) {
+                binding.signupBt.isEnabled = true
+                binding.signupBt.backgroundTintList = ContextCompat.getColorStateList(this@SignUpActivity, R.color.chip_text_check) // 활성화 색상
+            } else {
+                binding.signupBt.isEnabled = false
+                binding.signupBt.backgroundTintList = ContextCompat.getColorStateList(this@SignUpActivity, R.color.chip_text_uncheck) // 비활성화 색상
+            }
+        }
+
+        override fun afterTextChanged(s: Editable?) {}
+    }
+
+    // 아이디 유효성 검사
+    private fun isUsernameValid(username: String): Boolean {
+        return username.length in 5..13
+    }
+
+    // 비밀번호 유효성 검사
+    private fun isPasswordValid(password: String): Boolean {
+        return password.length >= 8
+    }
+
+    // 오류 메시지 표시
+    private fun showErrorMessage(message: String) {
+        binding.signupErTv.visibility = View.VISIBLE
+        binding.signupErTv.text = message
+    }
+
+    // 오류 메시지 숨기기
+    private fun hideErrorMessage() {
+        binding.signupErTv.visibility = View.GONE
     }
 
     private fun checkSignup() {
@@ -129,11 +176,11 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun errormessage(){
         // "이미 사용 중인 닉네임" 텍스트
-        binding.signUpErTv.visibility = View.VISIBLE
+        binding.signupErTv.visibility = View.VISIBLE
 
         // EditText 비워줌 (사용자가 입력한 닉네임 삭제)
-        binding.signUpIdEt.text.clear()
-        binding.signUpPwEt.text.clear()
+        binding.signupIdEt.text.clear()
+        binding.signupIdEt.text.clear()
     }
 
     private fun saveId(id: Int){
@@ -161,8 +208,5 @@ class SignUpActivity : AppCompatActivity() {
         // 로그인 화면으로 이동
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
-
-        // 두 번째 Toast 메시지 표시 (로그인 안내)
-        Toast.makeText(this, "로그인을 진행해 주세요 :)", Toast.LENGTH_SHORT).show()
     }
 }

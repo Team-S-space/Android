@@ -14,6 +14,29 @@ data class SignUpResponse(
     var result: SignUpResult
 )
 data class SignUpResult(
+    var createdAt: String,
+    var updateAt: String,
     var id: Int,
-    var createAt: String
+    var userId: String,
+    var password: String,
+    var isAdmin: Boolean,
+    var reviewList: SignUpReviewList
+)
+data class SignUpReviewList(
+    var createdAt: String,
+    var updateAt: String,
+    var id: Int,
+    var title: String,
+    var imageUrl: String,
+    var sunEvent: String,
+    var user: String,
+    var location: SignUpLocation
+)
+data class SignUpLocation(
+    var createdAt: String,
+    var updateAt: String,
+    var id: Int,
+    var latitude: String,
+    var longitude: String,
+    var address: String
 )
