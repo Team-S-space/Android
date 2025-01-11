@@ -1,12 +1,12 @@
 package com.example.umc_7th_hackathon
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.umc_7th_hackathon.databinding.ActivityMainBinding
 import com.naver.maps.map.MapView
@@ -27,6 +27,8 @@ class MapViewActivity : AppCompatActivity() {
     private lateinit var naverMap: NaverMap
     private lateinit var locationSource: FusedLocationSource
     private lateinit var mapView: MapView
+
+    // 위치 권한 요청
     private val locationPermissionRequest = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
@@ -35,7 +37,6 @@ class MapViewActivity : AppCompatActivity() {
                 initMapView()
             }
             permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
-
                 initMapView()
             }
             else -> {
@@ -47,16 +48,29 @@ class MapViewActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // ViewBinding 초기화
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // MapView 초기화
         mapView = findViewById(R.id.map_view)
+
+        // 위치 권한 확인
         if (!hasPermission()) {
             locationPermissionRequest.launch(PERMISSIONS)
         } else {
             initMapView()
         }
+
+        // 카메라 버튼 클릭 시 CameraActivity로 이동
+        binding.cameraBt.setOnClickListener {
+            val intent = Intent(this, CameraActivity::class.java)
+            startActivity(intent)
+        }
     }
 
+    // Naver 지도 초기화
     private fun initMapView() {
         locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
 
@@ -68,6 +82,7 @@ class MapViewActivity : AppCompatActivity() {
         }
     }
 
+    // 권한 확인 메서드
     private fun hasPermission(): Boolean {
         for (permission in PERMISSIONS) {
             if (ContextCompat.checkSelfPermission(this, permission)
@@ -79,6 +94,7 @@ class MapViewActivity : AppCompatActivity() {
         return true
     }
 
+    // MapView 생명주기 메서드
     override fun onResume() {
         super.onResume()
         mapView.onResume()

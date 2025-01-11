@@ -76,4 +76,12 @@ dependencies {
     //retrofit 네트워크 라이브러리 관련
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
+
+    //cameraX
+    implementation("androidx.camera:camera-core:1.3.0-alpha04")
+    implementation("androidx.camera:camera-camera2:1.3.0-alpha04")
+    implementation("androidx.camera:camera-lifecycle:1.3.0-alpha04")
+    implementation("androidx.camera:camera-video:1.3.0-alpha04") // VideoCapture 및 Recorder
+    implementation("androidx.camera:camera-view:1.3.0-alpha04")
+    implementation("androidx.camera:camera-extensions:1.3.0-alpha04")
 }
