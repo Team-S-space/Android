@@ -12,9 +12,9 @@
 | [최선규](https://github.com/ohige01) | [김민경](https://github.com/mk-star) | [임경표](https://github.com/MODUGGAGI) |
 
 **Android**
-| <img src="https://avatars.githubusercontent.com/u/122617471?v=4" width="100" height="100"> | <img src="https://avatars.githubusercontent.com/u/122667354?v=4" width="100" height="100"> | <img src="" width="100" height="100"> |
+| <img src="https://avatars.githubusercontent.com/u/122617471?v=4" width="100" height="100"> | <img src="https://avatars.githubusercontent.com/u/122667354?v=4" width="100" height="100"> | <img src="https://avatars.githubusercontent.com/u/118984872?v=4" width="100" height="100"> |
 |:---:|:---:|:---:|
-| [이소연](https://github.com/silviasylee03) | [공선영](https://github.com/Gongkirby) | [오혜인]() |
+| [이소연](https://github.com/silviasylee03) | [공선영](https://github.com/Gongkirby) | [오혜인](https://github.com/haein45) |
 
 # 🛠️ TECH STACK
 |Android|Server|Other|
