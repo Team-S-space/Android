@@ -5,15 +5,19 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.umc_7th_hackathon.databinding.ActivityMainBinding
 import com.example.umc_7th_hackathon.review.CameraActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
@@ -276,18 +280,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun initializeButtonState() {
         val currentTime = getCurrentTime()
-        val isBeforeSunrise = currentTime!! < sunriseTime
-        val isAfterSunset = currentTime!! > sunsetTime
+        val isSunrise = currentTime!! < sunriseTime && currentTime!! > sunsetTime // 일출
+        val isSunset = currentTime!! < sunsetTime && currentTime!! > sunriseTime // 일몰
 
         when {
-            isBeforeSunrise -> {
+            isSunrise -> {
                 setButtonState(sunriseActive = true, sunsetActive = false)
             }
-            isAfterSunset -> {
+            isSunset -> {
                 setButtonState(sunriseActive = false, sunsetActive = true)
-            }
-            else -> {
-                setButtonState(sunriseActive = false, sunsetActive = false)
             }
         }
     }
