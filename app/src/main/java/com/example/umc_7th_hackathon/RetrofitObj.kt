@@ -1,9 +1,9 @@
-package com.example.umc_7th_hackathon.login.api
+package com.example.umc_7th_hackathon
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object UserRetrofitObj {
+object RetrofitObj {
     // base url
     private const val BASE_URL = ""
 

@@ -13,7 +13,7 @@ import com.example.umc_7th_hackathon.MainActivity
 import com.example.umc_7th_hackathon.databinding.ActivitySignUpBinding
 import com.example.umc_7th_hackathon.login.api.clientData.SignUpClient
 import com.example.umc_7th_hackathon.login.api.UserRetrofitItf
-import com.example.umc_7th_hackathon.login.api.UserRetrofitObj
+import com.example.umc_7th_hackathon.RetrofitObj
 import com.example.umc_7th_hackathon.login.api.reponseData.SignUpResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -85,7 +85,7 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun checkSignup() {
         // 회원가입 API 연동
-        val authService = UserRetrofitObj.getRetrofit().create(UserRetrofitItf::class.java)
+        val authService = RetrofitObj.getRetrofit().create(UserRetrofitItf::class.java)
         authService.signUp(SignUpClient(username, password)).enqueue(object:
             Callback<SignUpResponse> {
             override fun onResponse(call: Call<SignUpResponse>, response: Response<SignUpResponse>) {
