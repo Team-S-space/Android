@@ -11,6 +11,7 @@
         android:id="@+id/map_view"
         android:layout_width="363dp"
         android:layout_height="418dp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
