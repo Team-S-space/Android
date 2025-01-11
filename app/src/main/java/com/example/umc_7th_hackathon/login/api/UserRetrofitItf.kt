@@ -11,7 +11,7 @@ import retrofit2.http.POST
 interface UserRetrofitItf {
     // 회원가입
     @POST("/api/auth/signup")
-    fun signUp(@Body signUpclient: SignUpClient): Call<SignUpResponse>
+    fun signUp(@Body signUpClient: SignUpClient): Call<SignUpResponse>
 
     // 로그인
     @POST("/api/auth/signup")

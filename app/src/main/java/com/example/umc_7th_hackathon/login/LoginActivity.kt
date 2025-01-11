@@ -2,13 +2,19 @@ package com.example.umc_7th_hackathon.login
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import com.example.umc_7th_hackathon.MainActivity
+import com.example.umc_7th_hackathon.R
 import com.example.umc_7th_hackathon.RetrofitObj
 import com.example.umc_7th_hackathon.databinding.ActivityLoginBinding
 import com.example.umc_7th_hackathon.login.api.clientData.LoginClient
@@ -27,6 +33,10 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // EditText 입력 감지
+        binding.loginIdEt.addTextChangedListener(inputWatcher)
+        binding.loginPwEt.addTextChangedListener(inputWatcher)
 
         // 로그인 버튼 클릭 시
         binding.loginBt.setOnClickListener {
@@ -89,7 +99,7 @@ class LoginActivity : AppCompatActivity() {
                         val resp: LoginResponse = response.body()!!
                         if (resp != null){
                             if (resp.isSuccess){
-//                                Log.d("아이디 값", resp.result.id.toString())
+                                Log.d("아이디 값", resp.result.id.toString())
                                 moveMainActivity(resp) // 로그인 진행
                             } else {
                                 Log.e("LOGIN/FAILURE",
@@ -118,8 +128,36 @@ class LoginActivity : AppCompatActivity() {
             }
 
         })
+    }
 
+    private fun errormessage(){
+        // "이미 사용 중인 닉네임" 텍스트
+        binding.loginErTv.visibility = View.VISIBLE
 
+        // EditText 비워줌 (사용자가 입력한 닉네임 삭제)
+        binding.loginIdEt.text.clear()
+        binding.loginIdEt.text.clear()
+    }
+
+    private val inputWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            // 아이디와 비밀번호 모두 입력되었는지 확인
+            val isUsernameEntered = binding.loginIdEt.text.toString().isNotEmpty()
+            val isPasswordEntered = binding.loginPwEt.text.toString().isNotEmpty()
+
+            // 로그인 버튼 상태 업데이트
+            if (isUsernameEntered && isPasswordEntered) {
+                binding.loginBt.isEnabled = true
+                binding.loginBt.backgroundTintList = ContextCompat.getColorStateList(this@LoginActivity, R.color.chip_text_check) // 활성화 색상
+            } else {
+                binding.loginBt.isEnabled = false
+                binding.loginBt.backgroundTintList = ContextCompat.getColorStateList(this@LoginActivity, R.color.chip_text_uncheck) // 비활성화 색상
+            }
+        }
+
+        override fun afterTextChanged(s: Editable?) {}
     }
 
 //    // 토큰을 SharedPreferences에 저장
@@ -144,8 +182,7 @@ class LoginActivity : AppCompatActivity() {
         Log.d("message", loginResponse.message)
 
         // 메인 화면으로 이동
-//        val intent = Intent(this, MainActivity::class.java)
-//        startActivity(intent)
-//        Toast.makeText(this, "요리어터에 오신 걸 환영합니다!", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 }
