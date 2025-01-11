@@ -10,5 +10,10 @@
     <color name="black5">#E8E8E8</color>
     <color name="black">#F5F5F5</color>
     <color name="white">#FFFFFF</color>
-
+    <color name="chip_check">#FF714E</color>
+    <color name="chip_uncheck">#BCBCBC</color>
+    <color name="chip_border_check">#FF714E</color>
+    <color name="chip_border_uncheck">#BCBCBC</color>
+    <color name="chip_text_check">#FF714E</color>
+    <color name="chip_text_uncheck">#BCBCBC</color>
 </resources>
