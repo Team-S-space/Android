@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:android="http://schemas.android.com/apk/res/android">
+    <font android:fontStyle="normal"
+        android:fontWeight="800"
+        android:font="@font/nanumsquareneobold" />
+
+    <font android:fontStyle="normal"
+        android:fontWeight="700"
+        android:font="@font/nanumsquareneoextrabold" />
+
+    <font android:fontStyle="normal"
+        android:fontWeight="500"
+        android:font="@font/pretendardmedium" />
+
+    <font android:fontStyle="normal"
+        android:fontWeight="300"
+        android:font="@font/pretendardlight" />
+
+    <font android:fontStyle="normal"
+        android:fontWeight="700"
+        android:font="@font/pretendardbold" />
+</font-family>

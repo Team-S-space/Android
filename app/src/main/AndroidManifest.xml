@@ -40,7 +40,7 @@
         <activity android:name=".login.LoginActivity"
             android:exported="false" />
 
-        <activity android:name=".CameraActivity" />
+        <activity android:name=".review.CameraActivity" />
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"

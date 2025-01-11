@@ -11,6 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.umc_7th_hackathon.databinding.ActivityMainBinding
+import com.example.umc_7th_hackathon.review.CameraActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.naver.maps.map.MapView
 import com.naver.maps.map.NaverMap
@@ -72,8 +73,6 @@ class MainActivity : AppCompatActivity() {
         binding.cameraBt.setOnClickListener {
             val intent = Intent(this, CameraActivity::class.java)
             startActivity(intent)
-
-
         }
 
         // BottomSheetDialog 초기화

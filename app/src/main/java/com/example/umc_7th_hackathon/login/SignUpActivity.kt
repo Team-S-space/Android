@@ -10,10 +10,10 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.umc_7th_hackathon.MainActivity
+import com.example.umc_7th_hackathon.RetrofitObj
 import com.example.umc_7th_hackathon.databinding.ActivitySignUpBinding
 import com.example.umc_7th_hackathon.login.api.clientData.SignUpClient
 import com.example.umc_7th_hackathon.login.api.UserRetrofitItf
-import com.example.umc_7th_hackathon.RetrofitObj
 import com.example.umc_7th_hackathon.login.api.reponseData.SignUpResponse
 import retrofit2.Call
 import retrofit2.Callback
