@@ -1,7 +1,6 @@
 package com.example.umc_7th_hackathon.login
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
@@ -12,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.umc_7th_hackathon.databinding.ActivityLoginBinding
 import com.example.umc_7th_hackathon.login.api.clientData.LoginClient
 import com.example.umc_7th_hackathon.login.api.UserRetrofitItf
-import com.example.umc_7th_hackathon.login.api.UserRetrofitObj
+import com.example.umc_7th_hackathon.RetrofitObj
 import com.example.umc_7th_hackathon.login.api.reponseData.LoginResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -73,7 +72,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         // 로그인 API 연동
-        val authService = UserRetrofitObj.getRetrofit().create(UserRetrofitItf::class.java)
+        val authService = RetrofitObj.getRetrofit().create(UserRetrofitItf::class.java)
         authService.login(LoginClient(username, password)).enqueue(object: Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 Log.d("LOGIN/SUCCESS", response.toString())
