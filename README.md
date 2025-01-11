@@ -27,7 +27,7 @@
 - minSDK : 24
 
 # 📝 Convention
-- [Git Convention]()
-- [Commit Message Convention]()
-- [Naming Convention]()
-- [Coding Detail Convention]()
+- [Git Convention](https://github.com/Team-S-space/Android/wiki/Git-Convention)
+- [Commit Message Convention](https://github.com/Team-S-space/Android/wiki/Commit-Message-Convention)
+- [Naming Convention](https://github.com/Team-S-space/Android/wiki/Naming-Convention)
+- [Coding Detail Convention](https://github.com/Team-S-space/Android/wiki/Coding-Detail-Convention)
