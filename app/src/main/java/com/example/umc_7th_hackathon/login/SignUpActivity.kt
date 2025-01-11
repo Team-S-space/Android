@@ -9,6 +9,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.umc_7th_hackathon.MainActivity
 import com.example.umc_7th_hackathon.databinding.ActivitySignUpBinding
 import com.example.umc_7th_hackathon.login.api.clientData.SignUpClient
 import com.example.umc_7th_hackathon.login.api.UserRetrofitItf
@@ -38,7 +39,10 @@ class SignUpActivity : AppCompatActivity() {
                 Log.d("회원가입", "회원가입 완료")
                 Toast.makeText(this, "회원가입이 완료되었습니다!", Toast.LENGTH_SHORT).show()
 
-                checkSignup()
+                // 명세서 완성 전 메인으로 넘어가게
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+//                checkSignup()
 
             } else {
                 // 오류 메시지 표시
