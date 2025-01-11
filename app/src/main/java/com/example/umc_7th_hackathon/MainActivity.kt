@@ -253,7 +253,7 @@ class MainActivity : AppCompatActivity() {
                     moveToLocation(	35.2384, 128.6920, 10.0) // 경남
                 }
                 R.id.chip12 -> {
-                    moveToLocation(	33.4996, 126.5312, 10.0) // 경남
+                    moveToLocation(	33.36167, 126.52917, 10.0) // 경남
                 }
             }
         }
