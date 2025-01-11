@@ -11,6 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.umc_7th_hackathon.databinding.ActivityMainBinding
+import com.example.umc_7th_hackathon.list.ListActivity
 import com.example.umc_7th_hackathon.review.CameraActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.chip.ChipGroup
@@ -74,6 +75,14 @@ class MainActivity : AppCompatActivity() {
             locationPermissionRequest.launch(PERMISSIONS)
         } else {
             initMapView()
+        }
+
+        val imageView2 = findViewById<ImageView>(R.id.imageView2)
+        imageView2.setOnClickListener {
+
+            // ActivityList로 화면 전환
+            val intent = Intent(this, ListActivity::class.java)
+            startActivity(intent)
         }
 
         // 카메라 버튼 클릭 시 CameraActivity로 이동

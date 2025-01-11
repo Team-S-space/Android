@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.umc_7th_hackathon.databinding.ItemRecyclerviewBinding
 
-class RecyclerViewAdapter(private val list: ArrayList<Item>) : RecyclerView.Adapter<RecyclerViewAdapter.CustomViewHolder>() {
+class RecyclerViewAdapter(private val list: List<Item>) : RecyclerView.Adapter<RecyclerViewAdapter.CustomViewHolder>() {
 
     inner class CustomViewHolder(private val binding: ItemRecyclerviewBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Item) {
