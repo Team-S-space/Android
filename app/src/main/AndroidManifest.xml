@@ -25,17 +25,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Umc_7th_hackathon"
         tools:targetApi="31">
-        <activity
-            android:name=".list.ListActivity"
-            android:exported="false" />
+
         <activity
             android:name=".login.SignUpActivity"
-            android:exported="false"></activity>
+            android:exported="false">
+        </activity>
+
         <activity
             android:name=".MainActivity"
             android:exported="false" />
+
         <activity
             android:name=".login.LoginActivity"
+            android:exported="false">
+        </activity>
+
+        <activity android:name=".review.CameraActivity" />
+        <activity android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -43,8 +49,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".review.CameraActivity" />
-        <activity android:name=".review.ReviewWriteActivity" />
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
