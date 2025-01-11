@@ -5,84 +5,100 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    android:background="@color/white">
 
 
     <ImageView
         android:id="@+id/img_iv"
-        android:layout_width="397dp"
-        android:layout_height="360dp"
+        android:layout_width="320dp"
+        android:layout_height="320dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.458"
+        app:layout_constraintVertical_bias="0.399"
         tools:srcCompat="@tools:sample/avatars" />
 
     <Button
         android:id="@+id/writing_bt"
-        android:layout_width="371dp"
-        android:layout_height="48dp"
+        android:layout_width="320dp"
+        android:layout_height="54dp"
         android:layout_marginBottom="28dp"
-        android:background="@drawable/button_background"
+        android:backgroundTint="#FF5100"
         android:fontFamily="@font/pretendardmedium"
         android:text="저장"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_iv"
-        app:layout_constraintVertical_bias="0.237" />
+        app:layout_constraintVertical_bias="0.072" />
 
     <EditText
         android:id="@+id/title_et"
-        android:layout_width="364dp"
-        android:layout_height="45dp"
+        android:layout_width="320dp"
+        android:layout_height="41dp"
         android:background="#F5F5F5"
         android:ems="10"
-        android:hint="타이틀을 입력하세요."
-        android:fontFamily="@font/pretendardlight"
-        android:paddingLeft="20dp"
+        android:fontFamily="@font/pretendardmedium"
+        android:hint="타이틀을 입력해 주세요."
         android:inputType="text"
-        android:textSize="25dp"
+        android:paddingLeft="20dp"
         android:text=""
+        android:textSize="14dp"
         app:layout_constraintBottom_toTopOf="@+id/img_iv"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.425"
+        app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.888" />
+        app:layout_constraintVertical_bias="0.65" />
 
     <ImageView
         android:id="@+id/sun_iv"
-        android:layout_width="67dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginBottom="15dp"
+        android:layout_width="57dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="132dp"
+        android:layout_marginEnd="44dp"
         android:background="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/title_et"
+        android:src="@drawable/ic_sunrise_on"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.068"
+        app:layout_constraintHorizontal_bias="0.98"
         app:layout_constraintStart_toEndOf="@+id/address_tv"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/ic_sunrise_on" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/address_tv"
-        android:layout_width="219dp"
-        android:layout_height="33dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="12dp"
+        android:layout_width="116dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="132dp"
+        android:layout_marginEnd="135dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/pretendardmedium"
+        android:paddingLeft="5dp"
+        android:paddingTop="3dp"
         android:text="주소"
-        android:textSize="20dp"
-        android:paddingLeft="20dp"
-        android:fontFamily="@font/pretendardlight"
-        app:layout_constraintBottom_toTopOf="@+id/title_et"
+        android:textColor="#909090"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/img_iv"
+        app:layout_constraintEnd_toStartOf="@+id/sun_iv"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.951" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="23dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/img_iv"
+        app:layout_constraintEnd_toStartOf="@+id/address_tv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_et"
+        app:srcCompat="@drawable/ic_address" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

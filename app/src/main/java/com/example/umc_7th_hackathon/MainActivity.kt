@@ -294,7 +294,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun getCurrentTime() : String?{
-        val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
+        //val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val sdf = "6:30" //더미데이터
         return sdf.format(Date())
     }
 }
