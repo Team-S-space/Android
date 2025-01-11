@@ -14,7 +14,7 @@ import com.naver.maps.map.NaverMap
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.util.FusedLocationSource
 
-class MapViewActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     private val LOCATION_PERMISSION_REQUEST_CODE = 5000
 
