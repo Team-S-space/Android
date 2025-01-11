@@ -103,7 +103,7 @@ class CameraActivity : AppCompatActivity() {
                     Log.d(TAG, msg)
 
                     // MainActivity로 이동하며 저장된 이미지 URI 전달
-                    val intent = Intent(this@CameraActivity, MapViewActivity::class.java).apply {
+                    val intent = Intent(this@CameraActivity, MainActivity::class.java).apply {
                         putExtra("photoUri", savedUri.toString())
                     }
                     startActivity(intent)
