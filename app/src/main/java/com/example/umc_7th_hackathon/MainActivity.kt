@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -21,6 +22,9 @@ import com.naver.maps.map.MapView
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.util.FusedLocationSource
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.Date as Date
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,6 +40,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mapView: MapView
     private lateinit var bottomSheetDialog: BottomSheetDialog
     private lateinit var imgIv: ImageView // BottomSheetDialog 내부의 ImageView
+
+    private lateinit var sunriseBtn: ImageButton
+    private lateinit var sunsetBtn: ImageButton
 
     // 일출 및 일몰 시간 (예: 06:30, 18:00)
     private val sunriseTime = "06:30"
@@ -110,6 +117,16 @@ class MainActivity : AppCompatActivity() {
             showBottomSheetWithImage(uri)
         }
 
+        // 일출 일몰 버튼
+        sunriseBtn = binding.sunriseBtn
+        sunsetBtn = binding.sunsetBtn
+
+        // 초기 상태 설정
+        initializeButtonState()
+
+        // 버튼 클릭 이벤트 설정
+        sunriseBtn.setOnClickListener { onButtonClick(true) }
+        sunsetBtn.setOnClickListener { onButtonClick(false) }
     }
 
     //마커 추가 함수
@@ -221,7 +238,62 @@ class MainActivity : AppCompatActivity() {
     }
 
     // 일출 일몰 버튼 수정
-    fun changeSunBtn() {
+    private fun setButtonState(sunriseActive: Boolean, sunsetActive: Boolean) {
+        sunriseBtn.tag = if (sunriseActive) "active" else "inactive"
+        sunsetBtn.tag = if (sunsetActive) "active" else "inactive"
 
+        sunriseBtn.setImageResource(
+            if (sunriseActive) R.drawable.ic_sunrise_on else R.drawable.ic_sunrise_off
+        )
+        sunsetBtn.setImageResource(
+            if (sunsetActive) R.drawable.ic_sunset_on else R.drawable.ic_sunset_off
+        )
+    }
+
+    private fun onButtonClick(isSunrise: Boolean) {
+        val isSunriseActive = sunriseBtn.tag == "active"
+        val isSunsetActive = sunsetBtn.tag == "active"
+
+        when {
+            isSunrise && isSunriseActive && isSunsetActive -> {
+                // 둘 다 활성화 → "일출" 비활성화
+                setButtonState(sunriseActive = false, sunsetActive = true)
+            }
+            !isSunrise && isSunriseActive && isSunsetActive -> {
+                // 둘 다 활성화 → "일몰" 비활성화
+                setButtonState(sunriseActive = true, sunsetActive = false)
+            }
+            isSunrise && !isSunriseActive -> {
+                // "일출" 버튼 활성화
+                setButtonState(sunriseActive = true, sunsetActive = isSunsetActive)
+            }
+            !isSunrise && !isSunsetActive -> {
+                // "일몰" 버튼 활성화
+                setButtonState(sunriseActive = isSunriseActive, sunsetActive = true)
+            }
+        }
+    }
+
+    private fun initializeButtonState() {
+        val currentTime = getCurrentTime()
+        val isBeforeSunrise = currentTime!! < sunriseTime
+        val isAfterSunset = currentTime!! > sunsetTime
+
+        when {
+            isBeforeSunrise -> {
+                setButtonState(sunriseActive = true, sunsetActive = false)
+            }
+            isAfterSunset -> {
+                setButtonState(sunriseActive = false, sunsetActive = true)
+            }
+            else -> {
+                setButtonState(sunriseActive = false, sunsetActive = false)
+            }
+        }
+    }
+
+    fun getCurrentTime() : String?{
+        val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
+        return sdf.format(Date())
     }
 }
