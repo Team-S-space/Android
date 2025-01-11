@@ -23,8 +23,8 @@
 
 # ⚙️ Android Studio Version
 - Koala
-- targetSDK :
-- minSDK : 
+- targetSDK : 34
+- minSDK : 24
 
 # 📝 Convention
 - [Git Convention]()
