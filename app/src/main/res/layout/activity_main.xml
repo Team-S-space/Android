@@ -8,6 +8,16 @@
     tools:context=".MainActivity">
 
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/menu_rv"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_cl"
+        android:visibility="gone"/>
+
     <com.naver.maps.map.MapView
         android:id="@+id/map_view"
         android:layout_width="0dp"
@@ -89,7 +99,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/btn_menu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -106,7 +116,7 @@
             android:fillViewport="false"
             android:scrollbars="none"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintStart_toEndOf="@+id/btn_menu"
             app:layout_constraintTop_toBottomOf="@+id/sun_tv">
 
             <com.google.android.material.chip.ChipGroup
