@@ -276,18 +276,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun initializeButtonState() {
         val currentTime = getCurrentTime()
-        val isBeforeSunrise = currentTime!! < sunriseTime
-        val isAfterSunset = currentTime!! > sunsetTime
+        val isSunrise = currentTime!! < sunriseTime && currentTime!! > sunsetTime // 일출
+        val isSunset = currentTime!! < sunsetTime && currentTime!! > sunriseTime // 일몰
 
         when {
-            isBeforeSunrise -> {
+            isSunrise -> {
                 setButtonState(sunriseActive = true, sunsetActive = false)
             }
-            isAfterSunset -> {
+            isSunset -> {
                 setButtonState(sunriseActive = false, sunsetActive = true)
-            }
-            else -> {
-                setButtonState(sunriseActive = false, sunsetActive = false)
             }
         }
     }
