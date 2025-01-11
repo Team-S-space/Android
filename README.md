@@ -3,7 +3,7 @@
 # 👤 Contributors
 
 **PM&DESIGN**
-|홍혁|맹소현| 
+|최홍혁|맹소현| 
 |------|------|
 
 **Server**
