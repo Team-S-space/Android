@@ -13,6 +13,10 @@ import androidx.core.content.ContextCompat
 import com.example.umc_7th_hackathon.databinding.ActivityMainBinding
 import com.example.umc_7th_hackathon.review.CameraActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.chip.ChipGroup
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.CameraAnimation
+import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapView
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.LocationTrackingMode
@@ -33,6 +37,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bottomSheetDialog: BottomSheetDialog
     private lateinit var imgIv: ImageView // BottomSheetDialog 내부의 ImageView
 
+    // 일출 및 일몰 시간 (예: 06:30, 18:00)
+    private val sunriseTime = "06:30"
+    private val sunsetTime = "18:00"
 
     // 위치 권한 요청
     private val locationPermissionRequest = registerForActivityResult(
@@ -130,6 +137,7 @@ class MainActivity : AppCompatActivity() {
             naverMap.locationSource = locationSource
             naverMap.uiSettings.isLocationButtonEnabled = true
             naverMap.locationTrackingMode = LocationTrackingMode.Follow
+            setupChipListener()
         }
     }
 
@@ -161,4 +169,59 @@ class MainActivity : AppCompatActivity() {
         mapView.onDestroy()
     }
 
+    // 지역 선택 시 지도 이동
+    private fun setupChipListener() {
+        val chipGroup = binding.chipGroup
+        chipGroup.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.chip01 -> {
+                    moveToLocation(35.9078, 127.7669, 6.0)
+                }
+                R.id.chip02 -> { // 서울 Chip 선택
+                    moveToLocation(37.5665, 126.9780, 11.0) // 서울 좌표와 줌 레벨
+                }
+                R.id.chip03 -> {
+                    moveToLocation(37.4138, 127.5183, 8.0) // 경기도
+                }
+                R.id.chip04 -> {
+                    moveToLocation(37.4563, 126.7052, 10.0) // 인천
+                }
+                R.id.chip05 -> {
+                    moveToLocation(37.5558, 128.2093, 9.0) // 강원
+                }
+                R.id.chip06 -> {
+                    moveToLocation(36.5184, 126.8000, 11.0) // 충남
+                }
+                R.id.chip07 -> {
+                    moveToLocation(36.4800, 127.2890, 11.0) // 충북
+                }
+                R.id.chip08 -> {
+                    moveToLocation(35.7175, 127.1530, 10.0) // 전북
+                }
+                R.id.chip09 -> {
+                    moveToLocation(34.8679, 126.9910, 10.0) // 전남
+                }
+                R.id.chip10 -> {
+                    moveToLocation(36.2486, 128.6648, 10.0) // 경북
+                }
+                R.id.chip11 -> {
+                    moveToLocation(	35.2384, 128.6920, 10.0) // 경남
+                }
+                R.id.chip12 -> {
+                    moveToLocation(	33.4996, 126.5312, 10.0) // 경남
+                }
+            }
+        }
+    }
+
+    private fun moveToLocation(latitude: Double, longitude: Double, zoomLevel: Double) {
+        val cameraUpdate = CameraUpdate.scrollAndZoomTo(LatLng(latitude, longitude), zoomLevel)
+            .animate(CameraAnimation.Easing) // 애니메이션 효과 추가
+        naverMap.moveCamera(cameraUpdate)
+    }
+
+    // 일출 일몰 버튼 수정
+    fun changeSunBtn() {
+
+    }
 }
