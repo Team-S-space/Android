@@ -38,6 +38,10 @@ android {
     viewBinding {
         enable = true
     }
+
+    dataBinding {
+        enable = true
+    }
 }
 
 dependencies {
