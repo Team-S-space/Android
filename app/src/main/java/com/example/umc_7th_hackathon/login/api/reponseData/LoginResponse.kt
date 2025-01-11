@@ -18,7 +18,7 @@ data class Result(
     var userId: String,
     var password: String,
     var isAdmin: Boolean,
-    var reviewList: ReviewList
+    var reviewList: List<ReviewList>
 )
 data class ReviewList(
     var createdAt: String,

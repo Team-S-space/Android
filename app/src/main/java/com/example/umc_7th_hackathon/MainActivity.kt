@@ -89,32 +89,32 @@ class MainActivity : AppCompatActivity() {
             initMapView()
         }
 
-        val imageView2 = findViewById<ImageView>(R.id.imageView2)
-        imageView2.setOnClickListener {
-
-            // ActivityList로 화면 전환
-            val intent = Intent(this, ListActivity::class.java)
-            startActivity(intent)
-        }
+//        val imageView2 = findViewById<ImageView>(R.id.imageView2)
+//        imageView2.setOnClickListener {
+//
+//            // ActivityList로 화면 전환
+//            val intent = Intent(this, ListActivity::class.java)
+//            startActivity(intent)
+//        }
 
         // 카메라 버튼 클릭 시 CameraActivity로 이동
         binding.cameraBt.setOnClickListener {
             val intent = Intent(this, CameraActivity::class.java)
             startActivity(intent)
 
-            if (::naverMap.isInitialized) {
-                val location = locationSource.lastLocation
-                if (location != null) {
-                    val latitude = location.latitude
-                    val longitude = location.longitude
-
-                    // 현재 위치에 마커 추가
-                    addMarker(latitude, longitude)
-
-                } else {
-                    Toast.makeText(this, "현재 위치를 가져올 수 없습니다.", Toast.LENGTH_SHORT).show()
-                }
-            }
+//            if (::naverMap.isInitialized) {
+//                val location = locationSource.lastLocation
+//                if (location != null) {
+//                    val latitude = location.latitude
+//                    val longitude = location.longitude
+//
+//                    // 현재 위치에 마커 추가
+//                    addMarker(latitude, longitude)
+//
+//                } else {
+//                    Toast.makeText(this, "현재 위치를 가져올 수 없습니다.", Toast.LENGTH_SHORT).show()
+//                }
+//            }
         }
 
         // BottomSheetDialog 초기화

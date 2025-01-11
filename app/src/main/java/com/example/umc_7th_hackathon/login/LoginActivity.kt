@@ -80,55 +80,49 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun CheckLogin(){
-
+    private fun CheckLogin() {
         // 입력하지 않은 경우 (빈칸)
-        if (binding.loginIdEt.text.toString().isEmpty() || binding.loginPwEt.text.toString().isEmpty()){
+        if (username.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "아이디와 비밀번호를 입력해 주세요.", Toast.LENGTH_SHORT).show()
             return
         }
 
         // 로그인 API 연동
         val authService = RetrofitObj.getRetrofit().create(UserRetrofitItf::class.java)
-        authService.login(LoginClient(username, password)).enqueue(object: Callback<LoginResponse> {
+        authService.login(LoginClient(username, password)).enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 Log.d("LOGIN/SUCCESS", response.toString())
 
-                when (response.code()){
-                    200 -> {
-                        val resp: LoginResponse = response.body()!!
-                        if (resp != null){
-                            if (resp.isSuccess){
-                                Log.d("아이디 값", resp.result.id.toString())
-                                moveMainActivity(resp) // 로그인 진행
-                            } else {
-                                Log.e("LOGIN/FAILURE",
-                                    "응답 코드: ${resp.code}, 응답메시지: ${resp.message}")
+                if (response.isSuccessful && response.body() != null) {
+                    val resp = response.body()!!
 
-                                // code가 MEMBER400일 때 오류 메시지 출력
-                                if (resp.code == "MEMBER401" || response.code() == 500 || response.code() == 400) {
-                                    binding.loginErTv.visibility = View.VISIBLE
-                                }
-                            }
-
-                        } else {
-                            Log.e("실패", response.message())
-                            Log.e("LOGIN/FAILURE", "응답 코드: ${resp.code}, 응답메시지: ${resp.message}")
-
-                        }
-                    }
-                    else -> {
+                    if (resp.isSuccess) {
+                        // 로그인 성공: 메인 화면으로 이동
+                        Log.d("아이디 값", resp.result.id.toString())
+                        moveMainActivity(resp)
+                    } else {
+                        // 로그인 실패: 오류 메시지 표시
                         binding.loginErTv.visibility = View.VISIBLE
+                        binding.loginErTv.text = resp.message // 서버에서 제공한 오류 메시지
+                        Log.e("LOGIN/FAILURE", "응답 코드: ${resp.code}, 메시지: ${resp.message}")
                     }
+                } else {
+                    // 서버 응답 실패: HTTP 상태 코드 확인
+                    binding.loginErTv.visibility = View.VISIBLE
+                    binding.loginErTv.text = "로그인에 실패했습니다. 다시 시도해주세요."
+                    Log.e("LOGIN/ERROR", "HTTP 코드: ${response.code()}, 메시지: ${response.message()}")
                 }
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                Log.d("RETROFIT/FAILURE", t.message.toString())
+                // 네트워크 요청 실패 처리
+                binding.loginErTv.visibility = View.VISIBLE
+                binding.loginErTv.text = "서버와의 연결에 실패했습니다. 인터넷 연결을 확인해주세요."
+                Log.e("RETROFIT/FAILURE", t.message.toString())
             }
-
         })
     }
+
 
     private fun errormessage(){
         // "이미 사용 중인 닉네임" 텍스트
@@ -169,17 +163,19 @@ class LoginActivity : AppCompatActivity() {
 //        }
 //    }
 //
-//    private fun saveId(id: Int){
-//        val sharedPref = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-//        with(sharedPref.edit()){
-//            putInt("UserId", id) // 아이디 값 전달
-//            apply()
-//        }
-//    }
+    private fun saveId(id: Int){
+        val sharedPref = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        with(sharedPref.edit()){
+            putInt("UserId", id) // 아이디 값 전달
+            apply()
+        }
+    }
 
     private fun moveMainActivity(loginResponse: LoginResponse){
-
-        Log.d("message", loginResponse.message)
+        // 로그인 연동 후 받은 아이디 저장
+        var id: Int = loginResponse.result.id
+        Log.d("Nickname액티비티 사용자 아이디 값", id.toString())
+        saveId(id)
 
         // 메인 화면으로 이동
         val intent = Intent(this, MainActivity::class.java)
