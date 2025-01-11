@@ -45,6 +45,7 @@
         </activity>
 
         <activity android:name=".review.CameraActivity" />
+        <activity android:name=".review.ReviewWriteActivity" />
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
