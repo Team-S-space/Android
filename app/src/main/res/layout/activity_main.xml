@@ -15,6 +15,7 @@
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_cl"
         app:layout_constraintVertical_bias="1.0">
@@ -35,7 +36,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_cl"
-        android:layout_width="409dp"
+        android:layout_width="0dp"
         android:layout_height="100dp"
         android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -63,29 +64,19 @@
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/img_list"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
         <ImageButton
-            android:id="@+id/sunset_btn"
+            android:id="@+id/sunrise_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
             android:background="@color/white"
             android:src="@drawable/ic_sunset_on"
-            app:layout_constraintEnd_toStartOf="@+id/sunrise_btn"
+            app:layout_constraintEnd_toStartOf="@+id/sunset_btn"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
-            android:id="@+id/sunrise_btn"
+            android:id="@+id/sunset_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -95,42 +86,229 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:id="@+id/loc_chip_group_ll"
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/img_list"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+        <HorizontalScrollView
             android:layout_width="0dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="10dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:orientation="horizontal"
+            android:fillViewport="false"
+            android:scrollbars="none"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView2"
             app:layout_constraintTop_toBottomOf="@+id/sun_tv">
 
             <com.google.android.material.chip.ChipGroup
-                android:id="@+id/loc_chip_group"
+                android:id="@+id/chipGroup"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:singleSelection="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView2"
-                app:layout_constraintTop_toBottomOf="@+id/sun_tv">
+                android:layout_height="match_parent"
+                app:chipSpacingHorizontal="5dp"
+                app:singleSelection="true">
 
                 <com.google.android.material.chip.Chip
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:id="@+id/chip01"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:chipMinHeight="40dp"
-                    app:chipStartPadding="20dp"
-                    app:chipEndPadding="20dp"
-                    android:textSize="18sp"
-                    android:textColor="@color/white"
-                    android:text="서울" />
+                    android:layout_height="40dp"
+                    android:checked="true"
+                    android:minHeight="40dp"
+                    android:text="전체"
+                    android:textColor="@color/chip_text"
+                    android:textSize="10sp"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/white"
+                    app:chipEndPadding="5dp"
+                    app:chipStartPadding="5dp"
+                    app:chipStrokeColor="@color/chip_border"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip02"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:minHeight="40dp"
+                    android:text="서울"
+                    android:textColor="@color/chip_text"
+                    android:textSize="10sp"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/white"
+                    app:chipEndPadding="5dp"
+                    app:chipStartPadding="5dp"
+                    app:chipStrokeColor="@color/chip_border"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip03"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:minHeight="40dp"
+                    android:text="경기"
+                    android:textColor="@color/chip_text"
+                    android:textSize="10sp"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/white"
+                    app:chipEndPadding="5dp"
+                    app:chipStartPadding="5dp"
+                    app:chipStrokeColor="@color/chip_border"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip04"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:minHeight="40dp"
+                    android:text="인천"
+                    android:textColor="@color/chip_text"
+                    android:textSize="10sp"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/white"
+                    app:chipEndPadding="5dp"
+                    app:chipStartPadding="5dp"
+                    app:chipStrokeColor="@color/chip_border"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip05"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:minHeight="40dp"
+                    android:text="강원"
+                    android:textColor="@color/chip_text"
+                    android:textSize="10sp"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/white"
+                    app:chipEndPadding="5dp"
+                    app:chipStartPadding="5dp"
+                    app:chipStrokeColor="@color/chip_border"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip06"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:minHeight="40dp"
+                    android:text="세종/충남"
+                    android:textColor="@color/chip_text"
+                    android:textSize="10sp"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/white"
+                    app:chipEndPadding="5dp"
+                    app:chipStartPadding="5dp"
+                    app:chipStrokeColor="@color/chip_border"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip07"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:minHeight="40dp"
+                    android:text="대구/충북"
+                    android:textColor="@color/chip_text"
+                    android:textSize="10sp"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/white"
+                    app:chipEndPadding="5dp"
+                    app:chipStartPadding="5dp"
+                    app:chipStrokeColor="@color/chip_border"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip08"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:minHeight="40dp"
+                    android:text="전북"
+                    android:textColor="@color/chip_text"
+                    android:textSize="10sp"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/white"
+                    app:chipEndPadding="5dp"
+                    app:chipStartPadding="5dp"
+                    app:chipStrokeColor="@color/chip_border"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip09"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:minHeight="40dp"
+                    android:text="광주/전남"
+                    android:textColor="@color/chip_text"
+                    android:textSize="10sp"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/white"
+                    app:chipEndPadding="5dp"
+                    app:chipStartPadding="5dp"
+                    app:chipStrokeColor="@color/chip_border"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip10"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:minHeight="40dp"
+                    android:text="대구/경북"
+                    android:textColor="@color/chip_text"
+                    android:textSize="10sp"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/white"
+                    app:chipEndPadding="5dp"
+                    app:chipStartPadding="5dp"
+                    app:chipStrokeColor="@color/chip_border"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip11"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:minHeight="40dp"
+                    android:text="부산/울산/경남"
+                    android:textColor="@color/chip_text"
+                    android:textSize="10sp"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/white"
+                    app:chipEndPadding="5dp"
+                    app:chipStartPadding="5dp"
+                    app:chipStrokeColor="@color/chip_border"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip12"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:minHeight="40dp"
+                    android:text="제주"
+                    android:textColor="@color/chip_text"
+                    android:textSize="10sp"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/white"
+                    app:chipEndPadding="5dp"
+                    app:chipStartPadding="5dp"
+                    app:chipStrokeColor="@color/chip_border"
+                    app:chipStrokeWidth="1dp" />
 
             </com.google.android.material.chip.ChipGroup>
-        </LinearLayout>
+
+        </HorizontalScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
