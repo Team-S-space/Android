@@ -19,8 +19,9 @@
             android:inputType="text"
             android:paddingLeft="10dp"
             android:textColor="#BCBCBC"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textStyle="bold"
+            android:fontFamily="@font/pretendardlight"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView2" />
@@ -37,8 +38,9 @@
             android:inputType="textPassword"
             android:paddingLeft="10dp"
             android:textColor="#BCBCBC"
-            android:textSize="16sp"
             android:textStyle="bold"
+            android:textSize="14sp"
+            android:fontFamily="@font/pretendardlight"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.494"
             app:layout_constraintStart_toStartOf="parent"
@@ -54,18 +56,21 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/img_logo" />
 
-        <android.widget.Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/signup_bt"
             android:layout_width="300dp"
             android:layout_height="55dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="28dp"
             android:backgroundTint="#E8E8E8"
             android:text="회원가입"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
+            android:fontFamily="@font/pretendardmedium"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.494"
+            android:elevation="0dp"
+            app:cornerRadius="0dp"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/signup_pw_et" />
 
@@ -87,10 +92,11 @@
             android:id="@+id/signUp_tv2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
+            android:layout_marginStart="90dp"
             android:layout_marginTop="25dp"
             android:text="아직 회원이 아니신가요?"
             android:textColor="#909090"
+            android:fontFamily="@font/pretendardmedium"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/signup_bt" />
 
@@ -102,6 +108,7 @@
             android:layout_marginTop="25dp"
             android:text="로그인"
             android:textColor="#909090"
+            android:fontFamily="@font/pretendardmedium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/signUp_tv2"
