@@ -73,6 +73,20 @@ class MainActivity : AppCompatActivity() {
         binding.cameraBt.setOnClickListener {
             val intent = Intent(this, CameraActivity::class.java)
             startActivity(intent)
+
+            if (::naverMap.isInitialized) {
+                val location = locationSource.lastLocation
+                if (location != null) {
+                    val latitude = location.latitude
+                    val longitude = location.longitude
+
+                    // 현재 위치에 마커 추가
+                    addMarker(latitude, longitude)
+
+                } else {
+                    Toast.makeText(this, "현재 위치를 가져올 수 없습니다.", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
         // BottomSheetDialog 초기화
@@ -90,6 +104,14 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+    //마커 추가 함수
+    private fun addMarker(latitude: Double, longitude: Double) {
+        val marker = com.naver.maps.map.overlay.Marker()
+        marker.position = com.naver.maps.geometry.LatLng(latitude, longitude)
+        marker.map = naverMap
+    }
+
 
     private fun showBottomSheetWithImage(photoUri: Uri) {
         // BottomSheetDialog의 img_iv에 사진 표시
