@@ -129,7 +129,17 @@ class MainActivity : AppCompatActivity() {
         val photoUri = intent.getStringExtra("photoUri")
         if (photoUri != null) {
             val uri = Uri.parse(photoUri)
-            showBottomSheetWithImage(uri)
+            binding.imgIv.setImageURI(uri)
+            bottomSheet.visibility = View.VISIBLE
+
+            Log.d("binding", "${binding.titleEt}")
+
+            binding.writingBt.setOnClickListener {
+                val title = binding.titleEt.text.toString()
+                Log.d("title", "$title")
+                bottomSheet.visibility = View.GONE
+                sendReview(uri, title)
+            }
         }
 
         // 일출 일몰 버튼
@@ -318,8 +328,79 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun getCurrentTime() : String?{
-//        val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
-        val sdf = "15:00"
+        val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
         return sdf.format(Date())
+    }
+
+    // 사진 URI를 파일로 변환하여 MultipartBody.Part로 만들기
+    fun createImagePart(uri: Uri, key: String): MultipartBody.Part {
+        val file = File(getRealPathFromURI(uri)) // 실제 파일 경로를 가져오는 함수 사용
+        val requestFile = RequestBody.create("image/png".toMediaTypeOrNull(), file)
+        Log.d("createImagePart", "$file")
+        return MultipartBody.Part.createFormData(key, file.name, requestFile)
+    }
+
+    // URI를 실제 파일 경로로 변환하는 함수
+    fun getRealPathFromURI(uri: Uri): String {
+        val cursor = contentResolver.query(uri, null, null, null, null)
+        cursor?.moveToFirst()
+        val columnIndex = cursor?.getColumnIndex("_data")
+        val filePath = columnIndex?.let { cursor.getString(it) }
+        cursor?.close()
+        return filePath ?: uri.path ?: ""
+    }
+
+    // 서버로 리뷰 보내기
+    fun sendReview(photoUri: Uri, title: String) {
+        // 현재 위치를 받아오는 방법 (위도, 경도 값)
+        val latitude = 37.5665 // 예시: 서울의 위도 값
+        val longitude = 126.9780 // 예시: 서울의 경도 값
+        val userId = 1 // 사용자 ID는 예시로 1로 설정, 실제로는 로그인한 사용자의 ID로 설정해야 함
+        val sunEvent = 0 // 예시: 이벤트 값, 실제 값에 맞게 설정해야 함
+
+        // Retrofit 초기화
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://3.38.222.221:8080") // 서버 주소
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val service = retrofit.create(ApiService::class.java)
+
+        // 이미지와 텍스트 데이터 준비
+        val imagePart = createImagePart(photoUri, "reviewPicture") // "reviewPicture"는 서버에서 요구하는 필드명
+        val addReviewRequest = AddReviewRequest(
+            userId = userId,
+            latitude = latitude.toString(),
+            longitude = longitude.toString(),
+            title = title,
+            sunEvent = sunEvent
+        )
+
+        // AddReviewRequest 객체를 RequestBody로 변환
+        val requestBody = RequestBody.create("application/json".toMediaTypeOrNull(), Gson().toJson(addReviewRequest))
+
+        // API 호출
+        val call = service.addReview(
+            request = MultipartBody.Part.createFormData("request", null, requestBody),
+            reviewPicture = imagePart
+        )
+
+        call.enqueue(object : Callback<AddReviewRequest> {
+            override fun onResponse(
+                call: Call<AddReviewRequest>,
+                response: Response<AddReviewRequest>
+            ) {
+                if (response.isSuccessful) {
+                    val reviewResponse = response.body()
+                    Log.d("ReviewWrite", "리뷰 작성 성공: $reviewResponse")
+                } else {
+                    Log.d("ReviewWrite", "서버 오류: ${response.errorBody()?.string()}")
+                }
+            }
+
+            override fun onFailure(call: Call<AddReviewRequest>, t: Throwable) {
+                Log.d("ReviewWrite", "네트워크 실패: ${t.message}")
+            }
+        })
     }
 }
