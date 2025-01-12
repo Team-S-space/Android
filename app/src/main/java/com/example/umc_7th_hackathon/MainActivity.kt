@@ -132,7 +132,6 @@ class MainActivity : AppCompatActivity() {
         sunIv = bottomSheetView.findViewById(R.id.sun_iv)
 
         // CameraActivity에서 전달된 사진 URI 확인
-        Log.d("binding", "${binding.titleEt}")
         val photoUri = intent.getStringExtra("photoUri")
         if (photoUri != null) {
             val uri = Uri.parse(photoUri)
@@ -370,8 +369,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun getCurrentTime() : String?{
-//        val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
-        val sdf = "17:00"
+        val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
         return sdf.format(Date())
     }
 
