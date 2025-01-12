@@ -86,6 +86,11 @@ class SignUpActivity : AppCompatActivity() {
             }
             true
         }
+
+        binding.signupBtnTv.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private val inputWatcher = object : TextWatcher {
@@ -183,14 +188,6 @@ class SignUpActivity : AppCompatActivity() {
         binding.signupIdEt.text.clear()
     }
 
-    private fun saveId(id: Int){
-        val sharedPref = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        with(sharedPref.edit()){
-            putInt("UserId", id) // 아이디 값 전달
-            apply()
-        }
-    }
-
     private fun moveLoginActivity(signUpResponse: SignUpResponse){
 
         Log.d("message", signUpResponse.message)
@@ -199,8 +196,6 @@ class SignUpActivity : AppCompatActivity() {
         // 회원가입 성공 후 받은 아이디 저장
         var id: Int = signUpResponse.result.id
         Log.d("Nickname액티비티 사용자 아이디 값", id.toString())
-
-        saveId(id)
 
         // 첫 번째 Toast 메시지 표시 (회원가입 완료)
         Toast.makeText(this, "회원가입이 완료되었습니다!", Toast.LENGTH_SHORT).show()

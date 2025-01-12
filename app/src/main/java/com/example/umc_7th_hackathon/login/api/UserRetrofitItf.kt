@@ -14,6 +14,6 @@ interface UserRetrofitItf {
     fun signUp(@Body signUpClient: SignUpClient): Call<SignUpResponse>
 
     // 로그인
-    @POST("/api/auth/signup")
+    @POST("/api/auth/login")
     fun login(@Body loginClient: LoginClient): Call<LoginResponse>
 }
