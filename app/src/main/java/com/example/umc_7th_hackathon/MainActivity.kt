@@ -101,6 +101,14 @@ class MainActivity : AppCompatActivity() {
             initMapView()
         }
 
+//        val marker = Marker()
+//        marker.position = LatLng(37.5670135, 126.9783740)
+//        marker.map = naverMap
+
+        val marker = Marker()
+        marker.position = LatLng(37.5670135, 126.9783740)
+        marker.map = naverMap
+
         // BottomSheet 참조
         bottomSheet = findViewById(R.id.bottomSheet)
 
@@ -136,12 +144,13 @@ class MainActivity : AppCompatActivity() {
         if (photoUri != null) {
             val uri = Uri.parse(photoUri)
             binding.imgIv.setImageURI(uri)
-            bottomSheet.visibility = View.VISIBLE
+//            bottomSheet.visibility = View.VISIBLE
 
             binding.writingBt.setOnClickListener {
                 val title = binding.titleEt.text.toString()
                 Log.d("title", "$title")
-                bottomSheet.visibility = View.GONE
+//              bottomSheet.visibility = View.GONE
+                showBottomSheetWithImage(uri)
                 sendReview(uri, title)
             }
         }
