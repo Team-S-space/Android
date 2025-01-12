@@ -133,8 +133,6 @@ class MainActivity : AppCompatActivity() {
 
         // CameraActivity에서 전달된 사진 URI 확인
         Log.d("binding", "${binding.titleEt}")
-        val title = binding.titleEt.text.toString()
-        Log.d("title", "$title")
         val photoUri = intent.getStringExtra("photoUri")
         if (photoUri != null) {
             val uri = Uri.parse(photoUri)
@@ -142,18 +140,12 @@ class MainActivity : AppCompatActivity() {
             bottomSheet.visibility = View.VISIBLE
 
             binding.writingBt.setOnClickListener {
+                val title = binding.titleEt.text.toString()
+                Log.d("title", "$title")
                 bottomSheet.visibility = View.GONE
                 sendReview(uri, title)
             }
         }
-
-        //val title = "test" // EditText에서 제목 가져오기
-//        val photoUriString = intent.getStringExtra("photoUri") // MainActivity에서 전달받은 photoUri
-//        Log.d("photoUriString", "test : $photoUriString")
-//        if (photoUriString != null) {
-//            val photoUri = Uri.parse(photoUriString)
-//            sendReview(photoUri, title) // 서버로 전송
-//        }
 
         // 일출 일몰 버튼
         sunriseBtn = binding.sunriseBtn
