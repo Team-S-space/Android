@@ -1,4 +1,4 @@
-package com.example.umc_7th_hackathon.review.api.reponseData
+package com.example.umc_7th_hackathon.review.api.responseData
 
 data class ReviewWriteResponse(
     var isSuccess: Boolean,
@@ -8,8 +8,6 @@ data class ReviewWriteResponse(
 )
 
 data class ReviewWriteResult(
-    var id: Int,
+    var reviewId: Int,
     var createdAt: String
 )
-
-

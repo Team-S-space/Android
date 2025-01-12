@@ -5,28 +5,39 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.umc_7th_hackathon.databinding.ActivityMainBinding
-import com.example.umc_7th_hackathon.list.ListActivity
+import com.example.umc_7th_hackathon.review.ApiService
 import com.example.umc_7th_hackathon.review.CameraActivity
+import com.example.umc_7th_hackathon.review.api.clientData.AddReviewRequest
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
+import com.google.gson.Gson
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapView
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.LocationTrackingMode
+import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.Date as Date
@@ -34,6 +45,7 @@ import java.util.Date as Date
 class MainActivity : AppCompatActivity() {
 
     private val LOCATION_PERMISSION_REQUEST_CODE = 5000
+    private lateinit var bottomSheet: LinearLayout
 
     private val PERMISSIONS = arrayOf(
         Manifest.permission.ACCESS_FINE_LOCATION,
@@ -44,7 +56,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var locationSource: FusedLocationSource
     private lateinit var mapView: MapView
     private lateinit var bottomSheetDialog: BottomSheetDialog
-    private lateinit var imgIv: ImageView // BottomSheetDialog 내부의 ImageView
+    private lateinit var imgIv: ImageView
     private lateinit var sunIv: ImageView
 
     private lateinit var sunriseBtn: ImageButton
@@ -89,32 +101,34 @@ class MainActivity : AppCompatActivity() {
             initMapView()
         }
 
-//        val imageView2 = findViewById<ImageView>(R.id.imageView2)
-//        imageView2.setOnClickListener {
-//
-//            // ActivityList로 화면 전환
-//            val intent = Intent(this, ListActivity::class.java)
-//            startActivity(intent)
-//        }
+//        val marker = Marker()
+//        marker.position = LatLng(37.5670135, 126.9783740)
+//        marker.map = naverMap
+
+        val marker = Marker()
+        marker.position = LatLng(37.5670135, 126.9783740)
+        marker.map = naverMap
+
+        // BottomSheet 참조
+        bottomSheet = findViewById(R.id.bottomSheet)
 
         // 카메라 버튼 클릭 시 CameraActivity로 이동
         binding.cameraBt.setOnClickListener {
             val intent = Intent(this, CameraActivity::class.java)
             startActivity(intent)
 
-//            if (::naverMap.isInitialized) {
-//                val location = locationSource.lastLocation
-//                if (location != null) {
-//                    val latitude = location.latitude
-//                    val longitude = location.longitude
-//
-//                    // 현재 위치에 마커 추가
-//                    addMarker(latitude, longitude)
-//
-//                } else {
-//                    Toast.makeText(this, "현재 위치를 가져올 수 없습니다.", Toast.LENGTH_SHORT).show()
-//                }
-//            }
+            if (::naverMap.isInitialized) {
+                val location = locationSource.lastLocation
+                if (location != null) {
+                    val latitude = location.latitude
+                    val longitude = location.longitude
+
+                    // 현재 위치에 마커 추가
+                    addMarker(latitude, longitude)
+                } else {
+                    Toast.makeText(this, "현재 위치를 가져올 수 없습니다.", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
         // BottomSheetDialog 초기화
@@ -130,14 +144,13 @@ class MainActivity : AppCompatActivity() {
         if (photoUri != null) {
             val uri = Uri.parse(photoUri)
             binding.imgIv.setImageURI(uri)
-            bottomSheet.visibility = View.VISIBLE
-
-            Log.d("binding", "${binding.titleEt}")
+//            bottomSheet.visibility = View.VISIBLE
 
             binding.writingBt.setOnClickListener {
                 val title = binding.titleEt.text.toString()
                 Log.d("title", "$title")
-                bottomSheet.visibility = View.GONE
+//              bottomSheet.visibility = View.GONE
+                showBottomSheetWithImage(uri)
                 sendReview(uri, title)
             }
         }
@@ -154,14 +167,51 @@ class MainActivity : AppCompatActivity() {
         sunsetBtn.setOnClickListener { onButtonClick(false) }
     }
 
-    //마커 추가 함수
+    // 일출 및 일몰 시간을 Date 객체로 변환하고 현재 시간과 비교하기 위한 함수
+    private fun isSunriseTime(): Boolean {
+        val currentTime = getCurrentTimeAsDate()
+        val sunriseDate = getTimeAsDate(sunriseTime)
+        return currentTime.before(sunriseDate)
+    }
+
+    private fun isSunsetTime(): Boolean {
+        val currentTime = getCurrentTimeAsDate()
+        val sunsetDate = getTimeAsDate(sunsetTime)
+        return currentTime.after(sunsetDate)
+    }
+
+    // 현재 시간 (String -> Date)
+    private fun getCurrentTimeAsDate(): Date {
+        val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
+        return sdf.parse(getCurrentTime())!!
+    }
+
+    // 일출, 일몰 시간을 Date로 변환 (String -> Date)
+    private fun getTimeAsDate(time: String): Date {
+        val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
+        return sdf.parse(time)!!
+    }
+
+    // 마커 추가 메서드에서 비교 수정
     private fun addMarker(latitude: Double, longitude: Double) {
         val marker = com.naver.maps.map.overlay.Marker()
         marker.position = com.naver.maps.geometry.LatLng(latitude, longitude)
+
+        marker.width = Marker.SIZE_AUTO
+        marker.height = Marker.SIZE_AUTO
+
+        // 현재 시간에 따라 마커 변경
+        if (isSunriseTime()) {
+            marker.icon = OverlayImage.fromResource(R.drawable.ic_sunrise_marker)
+        } else if (isSunsetTime()) {
+            marker.icon = OverlayImage.fromResource(R.drawable.ic_sunset_marker)
+        }
+
         marker.map = naverMap
     }
 
 
+    //Bottom Sheet
     private fun showBottomSheetWithImage(photoUri: Uri) {
         // BottomSheetDialog의 img_iv에 사진 표시
         imgIv.setImageURI(photoUri)
@@ -263,7 +313,7 @@ class MainActivity : AppCompatActivity() {
                     moveToLocation(	35.2384, 128.6920, 10.0) // 경남
                 }
                 R.id.chip12 -> {
-                    moveToLocation(	33.36167, 126.52917, 10.0) // 경남
+                    moveToLocation(	33.4996, 126.5312, 10.0) // 경남
                 }
             }
         }
